@@ -6,4 +6,10 @@
         <item name="colorAccent">@color/colorAccent</item>
     </style>
 
+    <style name="TextAppearance.IlSerpenteTheme.MainTitle" parent="TextAppearance.MaterialComponents.Headline2" />
+
+    <style name="Widget.IlSerpenteTheme.TitleButton" parent="Widget.MaterialComponents.Button">
+        <item name="android:paddingLeft">@dimen/main_button_horizontal_padding</item>
+        <item name="android:paddingRight">@dimen/main_button_horizontal_padding</item>
+    </style>
 </resources>
