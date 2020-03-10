@@ -13,7 +13,7 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="@string/app_name"
-        android:textAppearance="@style/TextAppearance.IlSerpenteTheme.MainTitle"
+        android:textAppearance="@style/TextAppearance.IlSerpente.MainTitle"
         app:layout_constraintBottom_toTopOf="@+id/guideline"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
@@ -28,7 +28,7 @@
 
     <Button
         android:id="@+id/button_start"
-        style="@style/Widget.IlSerpenteTheme.TitleButton"
+        style="@style/Widget.IlSerpente.TitleButton"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="@string/main_start"

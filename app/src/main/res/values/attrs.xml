@@ -1,0 +1,8 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <declare-styleable name="PlayerGameCardView">
+        <attr name="playerName" format="string" />
+        <attr name="playerColor" format="color" />
+        <attr name="isActive" format="boolean" />
+    </declare-styleable>
+</resources>

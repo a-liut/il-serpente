@@ -1,15 +1,19 @@
 <resources>
 
-    <style name="IlSerpenteTheme" parent="Theme.MaterialComponents.DayNight.NoActionBar">
+    <style name="IlSerpente" parent="Theme.MaterialComponents.DayNight.NoActionBar">
         <item name="colorPrimary">@color/colorPrimary</item>
         <item name="colorPrimaryDark">@color/colorPrimaryDark</item>
         <item name="colorAccent">@color/colorAccent</item>
     </style>
 
-    <style name="TextAppearance.IlSerpenteTheme.MainTitle" parent="TextAppearance.MaterialComponents.Headline2" />
+    <style name="TextAppearance.IlSerpente.MainTitle" parent="TextAppearance.MaterialComponents.Headline2" />
 
-    <style name="Widget.IlSerpenteTheme.TitleButton" parent="Widget.MaterialComponents.Button">
+    <style name="Widget.IlSerpente.TitleButton" parent="Widget.MaterialComponents.Button">
         <item name="android:paddingLeft">@dimen/main_button_horizontal_padding</item>
         <item name="android:paddingRight">@dimen/main_button_horizontal_padding</item>
+    </style>
+
+    <style name="TextAppearance.IlSerpente.Player.Title" parent="TextAppearance.MaterialComponents.Headline5">
+        <item name="android:textStyle">italic</item>
     </style>
 </resources>
