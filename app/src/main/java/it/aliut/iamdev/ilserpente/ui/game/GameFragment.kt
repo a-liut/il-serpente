@@ -1,5 +1,6 @@
 package it.aliut.iamdev.ilserpente.ui.game
 
+import android.graphics.Color
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
@@ -28,6 +29,9 @@ class GameFragment : Fragment() {
             viewModel.endGame()
         }
 
+        layout.game_surface.rows = 10
+        layout.game_surface.columns = 10
+
         return layout
     }
 
@@ -35,13 +39,29 @@ class GameFragment : Fragment() {
         super.onActivityCreated(savedInstanceState)
         viewModel = ViewModelProviders.of(this).get(GameViewModel::class.java)
 
-        viewModel.players.observe(viewLifecycleOwner, Observer { players ->
-            player_card_one.playerName = players[0].name
-            player_card_two.playerName = players[1].name
+        val players = ArrayList<Player>()
+        players.add(ComputerPlayer("(Computer) Player One", Color.RED))
+        players.add(ComputerPlayer("(Computer) Player Two", Color.BLUE))
+
+        viewModel.players.observe(viewLifecycleOwner, Observer { gamePlayers ->
+            player_card_one.player = gamePlayers[0]
+            player_card_two.player = gamePlayers[1]
+        })
+
+        viewModel.currentPlayer.observe(viewLifecycleOwner, Observer { player ->
+            if (player == players[0]) {
+                player_card_one.isPlayerActive = true
+                player_card_two.isPlayerActive = false
+            } else {
+                player_card_one.isPlayerActive = false
+                player_card_two.isPlayerActive = true
+            }
         })
 
         viewModel.gameState.observe(viewLifecycleOwner, Observer { state ->
             text_moves_counter.text = state.movesCount.toString()
+
+            game_surface.updateBoard(state.board)
         })
 
         viewModel.onEndGameEvent.observe(viewLifecycleOwner, Observer { gameEnded ->
@@ -55,10 +75,6 @@ class GameFragment : Fragment() {
                     .show()
             }
         })
-
-        val players = ArrayList<Player>()
-        players.add(ComputerPlayer("(Computer) Player One"))
-        players.add(ComputerPlayer("(Computer) Player Two"))
 
         viewModel.startGame(players)
     }

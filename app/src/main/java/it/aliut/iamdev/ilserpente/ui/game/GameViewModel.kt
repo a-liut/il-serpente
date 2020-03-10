@@ -6,6 +6,7 @@ import androidx.lifecycle.ViewModel
 import it.aliut.iamdev.ilserpente.game.Board
 import it.aliut.iamdev.ilserpente.game.GameMove
 import it.aliut.iamdev.ilserpente.game.GameState
+import it.aliut.iamdev.ilserpente.game.PlayerMove
 import it.aliut.iamdev.ilserpente.game.player.ComputerPlayer
 import it.aliut.iamdev.ilserpente.game.player.Player
 import it.aliut.iamdev.ilserpente.utils.SingleLiveEvent
@@ -121,10 +122,9 @@ class GameViewModel : ViewModel() {
     /**
      * Trigger a game move by a player.
      */
-    private fun triggerMove(move: GameMove): Boolean {
-        val currentGameState = _gameState.value!!
-        return currentGameState.applyMove(move)
-    }
+    private fun triggerMove(move: GameMove): Boolean =
+        _gameState.value!!.applyMove(PlayerMove(currentPlayer.value!!, move))
+
 
     /**
      * Switch current player.

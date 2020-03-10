@@ -2,14 +2,20 @@ package it.aliut.iamdev.ilserpente.game
 
 import timber.log.Timber
 
-class Board(private val rows: Int, private val columns: Int) {
+class Board(
+    private val rows: Int,
+    private val columns: Int,
+    val startPosition: Pair<Int, Int> = Pair(rows / 2, columns / 2)
+) {
 
-    private var currentPosition: Pair<Int, Int> = Pair(rows / 2, columns / 2)
+    private var currentPosition: Pair<Int, Int> = startPosition
 
     private val cells: HashSet<Pair<Int, Int>> = HashSet()
 
+    val moves: ArrayList<PlayerMove> = arrayListOf()
+
     init {
-        updateCells(currentPosition)
+        cells.add(currentPosition)
     }
 
     fun allowedMoves(): List<GameMove> = arrayListOf<GameMove>().apply {
@@ -36,7 +42,9 @@ class Board(private val rows: Int, private val columns: Int) {
         }
     }
 
-    fun applyMove(move: GameMove) {
+    fun applyMove(playerMove: PlayerMove) {
+        val move = playerMove.gameMove
+
         if (!allowedMoves().contains(move)) {
             throw MoveNotAllowedException(move)
         }
@@ -56,12 +64,13 @@ class Board(private val rows: Int, private val columns: Int) {
             }
         }
 
-        updateCells(currentPosition)
+        onMoveCompleted(playerMove, currentPosition)
 
         Timber.d("currentPosition: $currentPosition")
     }
 
-    private fun updateCells(position: Pair<Int, Int>) {
+    private fun onMoveCompleted(playerMove: PlayerMove, position: Pair<Int, Int>) {
+        moves.add(playerMove)
         cells.add(position)
     }
 }

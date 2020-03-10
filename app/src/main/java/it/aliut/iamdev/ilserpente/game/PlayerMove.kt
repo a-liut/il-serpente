@@ -2,7 +2,5 @@ package it.aliut.iamdev.ilserpente.game
 
 import it.aliut.iamdev.ilserpente.game.player.Player
 
-data class PlayerState(
-    val player: Player,
-    val isPlayerTurn: Boolean
-)
+data class PlayerMove(val player: Player, val gameMove: GameMove)
+

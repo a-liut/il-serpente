@@ -37,7 +37,7 @@
         tools:player_name="Player Two" />
 
     <it.aliut.iamdev.ilserpente.ui.views.IlSerpenteGameSurfaceView
-        android:id="@+id/ilSerpenteGameSurfaceView"
+        android:id="@+id/game_surface"
         android:layout_width="0dp"
         android:layout_height="0dp"
         android:layout_marginTop="8dp"
