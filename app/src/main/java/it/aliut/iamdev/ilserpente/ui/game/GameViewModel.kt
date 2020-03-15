@@ -41,6 +41,10 @@ class GameViewModel : ViewModel() {
     val currentPlayer: LiveData<Player>
         get() = _currentPlayer
 
+    private val _winner = MutableLiveData<Player>()
+    val winner: LiveData<Player>
+        get() = _winner
+
     /**
      * Stores information about the state of the game.
      */
@@ -90,7 +94,11 @@ class GameViewModel : ViewModel() {
      * Stops the game.
      */
     fun endGame() {
-        gameEnded = true
+        if (!gameEnded) {
+            gameEnded = true
+
+            _winner.postValue(_currentPlayer.value)
+        }
         _onEndGameEvent.postValue(true)
     }
 

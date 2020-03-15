@@ -30,13 +30,7 @@ class IlSerpenteGameSurfaceView(context: Context, attributeSet: AttributeSet) :
     }
 
     override fun surfaceChanged(holder: SurfaceHolder?, format: Int, width: Int, height: Int) {
-        holder?.let {
-            it.lockCanvas().let { canvas ->
-                drawGrid(canvas)
 
-                it.unlockCanvasAndPost(canvas)
-            }
-        }
     }
 
     override fun surfaceDestroyed(holder: SurfaceHolder?) {
@@ -44,7 +38,13 @@ class IlSerpenteGameSurfaceView(context: Context, attributeSet: AttributeSet) :
     }
 
     override fun surfaceCreated(holder: SurfaceHolder?) {
+        holder?.let {
+            it.lockCanvas().let { canvas ->
+                drawGrid(canvas)
 
+                it.unlockCanvasAndPost(canvas)
+            }
+        }
     }
 
     /**
@@ -82,6 +82,7 @@ class IlSerpenteGameSurfaceView(context: Context, attributeSet: AttributeSet) :
 
     fun updateBoard(board: Board) {
         holder.lockCanvas()?.let { canvas ->
+            drawGrid(canvas)
 
             val deltaX = width / (rows + 1)
             val deltaY = height / (columns + 1)

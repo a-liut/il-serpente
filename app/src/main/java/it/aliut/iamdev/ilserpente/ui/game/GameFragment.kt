@@ -66,14 +66,16 @@ class GameFragment : Fragment() {
 
         viewModel.onEndGameEvent.observe(viewLifecycleOwner, Observer { gameEnded ->
             if (gameEnded) {
-                AlertDialog.Builder(context!!)
-                    .setMessage("Game finished")
-                    .setPositiveButton("OK") { _, _ ->
-                        activity!!.onBackPressed()
-                    }
-                    .create()
-                    .show()
+                activity!!.onBackPressed()
             }
+        })
+
+        viewModel.winner.observe(viewLifecycleOwner, Observer { winner ->
+            AlertDialog.Builder(context!!)
+                .setMessage("${winner.name} won!")
+                .setPositiveButton("OK") { _, _ -> }
+                .create()
+                .show()
         })
 
         viewModel.startGame(players)
