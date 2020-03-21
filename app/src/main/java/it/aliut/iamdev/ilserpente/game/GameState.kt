@@ -23,5 +23,4 @@ data class GameState(
 
     private fun isValidMove(move: PlayerMove, board: Board): Boolean =
         move.gameMove in board.allowedMoves()
-
 }

@@ -8,7 +8,7 @@ import android.view.ViewGroup
 import androidx.appcompat.app.AlertDialog
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.Observer
-import androidx.lifecycle.ViewModelProviders
+import androidx.lifecycle.ViewModelProvider
 import it.aliut.iamdev.ilserpente.R
 import it.aliut.iamdev.ilserpente.game.player.ComputerPlayer
 import it.aliut.iamdev.ilserpente.game.player.Player
@@ -20,7 +20,8 @@ class GameFragment : Fragment() {
     private lateinit var viewModel: GameViewModel
 
     override fun onCreateView(
-        inflater: LayoutInflater, container: ViewGroup?,
+        inflater: LayoutInflater,
+        container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View {
         val layout = inflater.inflate(R.layout.game_fragment, container, false)
@@ -37,7 +38,7 @@ class GameFragment : Fragment() {
 
     override fun onActivityCreated(savedInstanceState: Bundle?) {
         super.onActivityCreated(savedInstanceState)
-        viewModel = ViewModelProviders.of(this).get(GameViewModel::class.java)
+        viewModel = ViewModelProvider(this).get(GameViewModel::class.java)
 
         val players = ArrayList<Player>()
         players.add(ComputerPlayer("(Computer) Player One", Color.RED))
@@ -80,5 +81,4 @@ class GameFragment : Fragment() {
 
         viewModel.startGame(players)
     }
-
 }

@@ -12,7 +12,7 @@ class IlSerpenteApplication : Application() {
 
     private fun initLogger() {
         if (BuildConfig.DEBUG) {
-            Timber.plant(Timber.DebugTree());
+            Timber.plant(Timber.DebugTree())
         }
     }
 }

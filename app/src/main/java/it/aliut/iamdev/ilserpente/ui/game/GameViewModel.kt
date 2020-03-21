@@ -133,7 +133,6 @@ class GameViewModel : ViewModel() {
     private fun triggerMove(move: GameMove): Boolean =
         _gameState.value!!.applyMove(PlayerMove(currentPlayer.value!!, move))
 
-
     /**
      * Switch current player.
      */

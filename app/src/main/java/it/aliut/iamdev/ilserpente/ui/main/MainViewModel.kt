@@ -14,5 +14,4 @@ class MainViewModel : ViewModel() {
     fun onStartGame() {
         _startGameEvent.value = true
     }
-
 }

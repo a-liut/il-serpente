@@ -30,11 +30,9 @@ class IlSerpenteGameSurfaceView(context: Context, attributeSet: AttributeSet) :
     }
 
     override fun surfaceChanged(holder: SurfaceHolder?, format: Int, width: Int, height: Int) {
-
     }
 
     override fun surfaceDestroyed(holder: SurfaceHolder?) {
-
     }
 
     override fun surfaceCreated(holder: SurfaceHolder?) {
@@ -54,7 +52,7 @@ class IlSerpenteGameSurfaceView(context: Context, attributeSet: AttributeSet) :
         val backgroundPaint = Paint().apply { color = Color.WHITE } // White
         canvas.drawRect(0f, 0f, width.toFloat(), height.toFloat(), backgroundPaint)
 
-        val linePaint = Paint().apply { color = Color.GRAY;alpha = 125 }
+        val linePaint = Paint().apply { color = Color.GRAY; alpha = 125 }
 
         val deltaY = width / (rows + 1)
         val deltaX = height / (columns + 1)
