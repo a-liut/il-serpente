@@ -19,7 +19,6 @@ class Board(
     }
 
     fun allowedMoves(): List<GameMove> = arrayListOf<GameMove>().apply {
-
         val leftPos = currentPosition.copy(first = currentPosition.first - 1)
         val rightPos = currentPosition.copy(first = currentPosition.first + 1)
         val upPos = currentPosition.copy(second = currentPosition.second - 1)
@@ -29,7 +28,7 @@ class Board(
             add(GameMove.LEFT)
         }
 
-        if (currentPosition.first <= columns && !cells.contains(rightPos)) {
+        if (currentPosition.first < columns && !cells.contains(rightPos)) {
             add(GameMove.RIGHT)
         }
 
@@ -37,7 +36,7 @@ class Board(
             add(GameMove.UP)
         }
 
-        if (currentPosition.second <= rows && !cells.contains(downPos)) {
+        if (currentPosition.second < rows && !cells.contains(downPos)) {
             add(GameMove.DOWN)
         }
     }
