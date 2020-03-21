@@ -14,6 +14,7 @@ import it.aliut.iamdev.ilserpente.game.player.ComputerPlayer
 import it.aliut.iamdev.ilserpente.game.player.Player
 import kotlinx.android.synthetic.main.game_fragment.*
 import kotlinx.android.synthetic.main.game_fragment.view.*
+import timber.log.Timber
 
 class GameFragment : Fragment() {
 
@@ -28,6 +29,7 @@ class GameFragment : Fragment() {
 
         layout.button_back.setOnClickListener {
             viewModel.endGame()
+            viewModel.exitGame()
         }
 
         layout.game_surface.rows = 10
@@ -65,8 +67,12 @@ class GameFragment : Fragment() {
             game_surface.updateBoard(state.board)
         })
 
-        viewModel.onEndGameEvent.observe(viewLifecycleOwner, Observer { gameEnded ->
-            if (gameEnded) {
+        viewModel.onEndGameEvent.observe(viewLifecycleOwner, Observer {
+            Timber.d("Game ended!")
+        })
+
+        viewModel.onExitGameEvent.observe(viewLifecycleOwner, Observer { canExit ->
+            if (canExit) {
                 activity!!.onBackPressed()
             }
         })

@@ -60,6 +60,10 @@ class GameViewModel : ViewModel() {
     val onEndGameEvent: LiveData<Boolean>
         get() = _onEndGameEvent
 
+    private val _onExitGameEvent = SingleLiveEvent<Boolean>()
+    val onExitGameEvent: LiveData<Boolean>
+        get() = _onExitGameEvent
+
     /**
      * Starts the game. It sets up players and a new game and starts the main game cycle.
      * Each player is asked in turn to produce a move. Then, the move is applied to the board.
@@ -91,6 +95,13 @@ class GameViewModel : ViewModel() {
     }
 
     /**
+     * Exits the game view.
+     */
+    fun exitGame() {
+        _onExitGameEvent.postValue(gameEnded)
+    }
+
+    /**
      * Stops the game.
      */
     fun endGame() {
@@ -98,8 +109,8 @@ class GameViewModel : ViewModel() {
             gameEnded = true
 
             _winner.postValue(_currentPlayer.value)
+            _onEndGameEvent.postValue(true)
         }
-        _onEndGameEvent.postValue(true)
     }
 
     /**
