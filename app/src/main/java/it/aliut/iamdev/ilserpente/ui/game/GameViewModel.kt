@@ -4,39 +4,24 @@ import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import it.aliut.iamdev.ilserpente.game.Board
-import it.aliut.iamdev.ilserpente.game.GameMove
+import it.aliut.iamdev.ilserpente.game.GameEngine
 import it.aliut.iamdev.ilserpente.game.GameState
-import it.aliut.iamdev.ilserpente.game.PlayerMove
-import it.aliut.iamdev.ilserpente.game.player.ComputerPlayer
 import it.aliut.iamdev.ilserpente.game.player.Player
 import it.aliut.iamdev.ilserpente.utils.SingleLiveEvent
-import kotlinx.coroutines.GlobalScope
-import kotlinx.coroutines.delay
-import kotlinx.coroutines.launch
-import timber.log.Timber
 
-class GameViewModel : ViewModel() {
+class GameViewModel : ViewModel(), GameEngine.Callback {
 
-    /**
-     * Indicates the current player.
-     */
-    private var currentPlayerIdx: Int = 0
+    companion object {
+        const val DEFAULT_ROW_COUNT = 10
+        const val DEFAULT_COLUMN_COUNT = 10
+    }
 
-    /**
-     * True if the game is ended.
-     */
-    private var gameEnded: Boolean = true
+    private lateinit var gameEngine: GameEngine
 
-    /**
-     * Stores the players participating the game.
-     */
     private val _players = MutableLiveData<List<Player>>()
     val players: LiveData<List<Player>>
         get() = _players
 
-    /**
-     * Stores the current player.
-     */
     private val _currentPlayer = MutableLiveData<Player>()
     val currentPlayer: LiveData<Player>
         get() = _currentPlayer
@@ -45,9 +30,6 @@ class GameViewModel : ViewModel() {
     val winner: LiveData<Player>
         get() = _winner
 
-    /**
-     * Stores information about the state of the game.
-     */
     private val _gameState = MutableLiveData<GameState>()
     val gameState: LiveData<GameState>
         get() = _gameState
@@ -70,85 +52,41 @@ class GameViewModel : ViewModel() {
      * If the game ends, it notifies the observers.
      */
     fun startGame(players: ArrayList<Player>) {
-        setupPlayers(players)
-        createGame()
+        gameEngine = GameEngine(
+            players,
+            GameState(0, Board(DEFAULT_ROW_COUNT, DEFAULT_COLUMN_COUNT)),
+            this
+        )
+        _players.value = gameEngine.players
+        _currentPlayer.postValue(gameEngine.currentPlayer)
 
-        GlobalScope.launch {
-            while (!gameEnded) {
-                val currentPlayer = players[currentPlayerIdx]
-
-                if (checkGameFinished(gameState.value!!)) {
-                    Timber.d("Game finished!")
-                    endGame()
-                } else {
-                    if (currentPlayer is ComputerPlayer) {
-                        delay(500)
-                        triggerMove(currentPlayer.getNextMove(_gameState.value!!))
-                    }
-
-                    _gameState.postValue(_gameState.value!!.copy(movesCount = _gameState.value!!.movesCount + 1))
-
-                    nextPlayer()
-                }
-            }
-        }
+        gameEngine.start()
     }
 
     /**
      * Exits the game view.
      */
     fun exitGame() {
-        _onExitGameEvent.postValue(gameEnded)
+        _onExitGameEvent.postValue(gameEngine.gameEnded)
     }
 
     /**
      * Stops the game.
      */
     fun endGame() {
-        if (!gameEnded) {
-            gameEnded = true
-
-            _winner.postValue(_currentPlayer.value)
-            _onEndGameEvent.postValue(true)
-        }
+        gameEngine.endGame()
     }
 
-    /**
-     * Returns true if the game is finished.
-     */
-    private fun checkGameFinished(gameState: GameState) = gameState.board.allowedMoves().isEmpty()
-
-    /**
-     * Creates the players.
-     */
-    private fun setupPlayers(newPlayers: ArrayList<Player>) {
-        _players.value = newPlayers
+    override fun onGameStateChanged(gameState: GameState) {
+        _gameState.postValue(gameState)
     }
 
-    /**
-     * Creates a new game.
-     */
-    private fun createGame() {
-        _gameState.value = GameState(0, Board(10, 10))
-
-        gameEnded = false
-
-        // First player
-        currentPlayerIdx = -1
-        nextPlayer()
+    override fun onCurrentPlayerChanged(player: Player) {
+        _currentPlayer.postValue(player)
     }
 
-    /**
-     * Trigger a game move by a player.
-     */
-    private fun triggerMove(move: GameMove): Boolean =
-        _gameState.value!!.applyMove(PlayerMove(currentPlayer.value!!, move))
-
-    /**
-     * Switch current player.
-     */
-    private fun nextPlayer() {
-        currentPlayerIdx = (currentPlayerIdx + 1) % _players.value!!.size
-        _currentPlayer.postValue(_players.value!![currentPlayerIdx])
+    override fun onGameFinished() {
+        _winner.postValue(gameEngine.currentPlayer)
+        _onEndGameEvent.postValue(true)
     }
 }
