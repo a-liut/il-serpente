@@ -1,9 +1,7 @@
 package it.aliut.iamdev.ilserpente.game
 
-import it.aliut.iamdev.ilserpente.game.player.ComputerPlayer
 import it.aliut.iamdev.ilserpente.game.player.Player
 import kotlinx.coroutines.GlobalScope
-import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
 import timber.log.Timber
 
@@ -34,10 +32,7 @@ class GameEngine(var players: List<Player>, var gameState: GameState, val callba
                     Timber.d("Game finished!")
                     endGame()
                 } else {
-                    if (currentPlayer is ComputerPlayer) {
-                        delay(500)
-                        triggerMove(currentPlayer.getNextMove(gameState))
-                    }
+                    triggerMove(currentPlayer.getNextMove(gameState))
 
                     nextPlayer()
                 }

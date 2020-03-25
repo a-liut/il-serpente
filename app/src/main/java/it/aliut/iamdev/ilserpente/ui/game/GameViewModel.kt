@@ -5,9 +5,14 @@ import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import it.aliut.iamdev.ilserpente.game.Board
 import it.aliut.iamdev.ilserpente.game.GameEngine
+import it.aliut.iamdev.ilserpente.game.GameMove
 import it.aliut.iamdev.ilserpente.game.GameState
+import it.aliut.iamdev.ilserpente.game.player.HumanPlayer
 import it.aliut.iamdev.ilserpente.game.player.Player
 import it.aliut.iamdev.ilserpente.utils.SingleLiveEvent
+import kotlinx.coroutines.GlobalScope
+import kotlinx.coroutines.launch
+import timber.log.Timber
 
 class GameViewModel : ViewModel(), GameEngine.Callback {
 
@@ -75,6 +80,13 @@ class GameViewModel : ViewModel(), GameEngine.Callback {
      */
     fun endGame() {
         gameEngine.endGame()
+    }
+
+    fun triggerPlayerMove(gameMove: GameMove) {
+        GlobalScope.launch {
+            (gameEngine.currentPlayer as? HumanPlayer)?.postMove(gameMove)
+                ?: Timber.d("Not a human player")
+        }
     }
 
     override fun onGameStateChanged(gameState: GameState) {
