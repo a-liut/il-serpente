@@ -14,4 +14,8 @@ class HumanPlayer(name: String, color: Int) : Player(name, color) {
     suspend fun postMove(gameMove: GameMove) {
         moveInputChannel.send(gameMove)
     }
+
+    fun cancel() {
+        moveInputChannel.close()
+    }
 }

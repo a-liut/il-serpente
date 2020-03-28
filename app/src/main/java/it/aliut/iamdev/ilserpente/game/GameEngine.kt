@@ -1,8 +1,10 @@
 package it.aliut.iamdev.ilserpente.game
 
+import it.aliut.iamdev.ilserpente.game.player.HumanPlayer
 import it.aliut.iamdev.ilserpente.game.player.Player
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.channels.ClosedReceiveChannelException
 import kotlinx.coroutines.launch
 import timber.log.Timber
 
@@ -25,37 +27,51 @@ class GameEngine(
 
     private var currentPlayerIdx: Int = -1
 
-    private val scope = CoroutineScope(Dispatchers.Default)
-
     fun start() {
-        scope.launch {
-            var first = true
+        CoroutineScope(Dispatchers.Default).launch {
+            var swapPlayer = true
 
-            while (!gameEnded) {
-                if (isGameFinished(gameState)) {
-                    endGame()
-                } else {
-                    if (first) nextPlayer().also { first = false }
-
-                    val move = PlayerMove(currentPlayer!!, currentPlayer!!.getNextMove(gameState))
-                    if (gameState.isValidMove(move)) {
-                        triggerMove(move)
-
-                        nextPlayer()
+            try {
+                while (!gameEnded) {
+                    if (isGameFinished(gameState)) {
+                        endGame()
                     } else {
-                        Timber.d("Invalid move: $move")
-                        callback.onInvalidMove(move)
+                        if (swapPlayer) nextPlayer()
+
+                        val move = PlayerMove(
+                            currentPlayer!!,
+                            currentPlayer!!.getNextMove(gameState)
+                        )
+                        swapPlayer = if (gameState.isValidMove(move)) {
+                            triggerMove(move)
+
+                            true
+                        } else {
+                            Timber.d("Invalid move: $move")
+                            callback.onInvalidMove(move)
+
+                            false
+                        }
                     }
                 }
+            } catch (ex: ClosedReceiveChannelException) {
+                Timber.d("Human Player interrupted")
             }
 
-            Timber.d("Game finished!")
+            Timber.d("Game thread exits!")
         }
     }
 
     fun endGame() {
         if (!gameEnded) {
             gameEnded = true
+            // supervisorJob.cancel()
+
+            players
+                .filterIsInstance<HumanPlayer>()
+                .forEach { it.cancel() }
+
+            nextPlayer()
 
             callback.onGameFinished()
         }
