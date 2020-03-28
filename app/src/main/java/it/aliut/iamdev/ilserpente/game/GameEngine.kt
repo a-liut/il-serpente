@@ -29,24 +29,27 @@ class GameEngine(
 
     fun start() {
         scope.launch {
-            do {
-                nextPlayer()
+            var first = true
 
-                val move = PlayerMove(currentPlayer!!, currentPlayer!!.getNextMove(gameState))
-                if (gameState.isValidMove(move)) {
-                    triggerMove(move)
-                } else {
-                    Timber.d("Invalid move: $move")
-                    callback.onInvalidMove(move)
-                }
-
-                if (checkGameFinished(gameState)) {
+            while (!gameEnded) {
+                if (isGameFinished(gameState)) {
                     endGame()
+                } else {
+                    if (first) nextPlayer().also { first = false }
+
+                    val move = PlayerMove(currentPlayer!!, currentPlayer!!.getNextMove(gameState))
+                    if (gameState.isValidMove(move)) {
+                        triggerMove(move)
+
+                        nextPlayer()
+                    } else {
+                        Timber.d("Invalid move: $move")
+                        callback.onInvalidMove(move)
+                    }
                 }
-            } while (!gameEnded)
+            }
 
             Timber.d("Game finished!")
-            endGame()
         }
     }
 
@@ -68,7 +71,7 @@ class GameEngine(
         callback.onGameStateChanged(gameState)
     }
 
-    private fun checkGameFinished(gameState: GameState) = gameState.board.allowedMoves().isEmpty()
+    private fun isGameFinished(gameState: GameState) = gameState.board.allowedMoves().isEmpty()
 
     /**
      * Switch current player.
