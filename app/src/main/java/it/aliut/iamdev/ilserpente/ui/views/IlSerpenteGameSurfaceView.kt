@@ -25,6 +25,8 @@ class IlSerpenteGameSurfaceView(context: Context, attributeSet: AttributeSet) :
             field = value
         }
 
+    private var lastBoard: Board? = null
+
     init {
         holder.addCallback(this)
     }
@@ -36,28 +38,36 @@ class IlSerpenteGameSurfaceView(context: Context, attributeSet: AttributeSet) :
     }
 
     override fun surfaceCreated(holder: SurfaceHolder?) {
-        holder?.let {
-            it.lockCanvas().let { canvas ->
+        draw()
+    }
+
+    fun updateBoard(board: Board) {
+        lastBoard = board
+        draw()
+    }
+
+    private fun draw() {
+        holder?.let { surface ->
+            surface.lockCanvas().let { canvas ->
                 drawGrid(canvas)
 
-                it.unlockCanvasAndPost(canvas)
+                lastBoard?.let { drawBoard(canvas, it) }
+
+                surface.unlockCanvasAndPost(canvas)
             }
         }
     }
 
-    /**
-     * Draws the grid on the surface
-     */
     private fun drawGrid(canvas: Canvas) {
         val backgroundPaint = Paint().apply { color = Color.WHITE } // White
         canvas.drawRect(0f, 0f, width.toFloat(), height.toFloat(), backgroundPaint)
 
         val linePaint = Paint().apply { color = Color.GRAY; alpha = 125 }
 
-        val deltaY = width / (rows + 1)
-        val deltaX = height / (columns + 1)
+        val deltaY = height / (rows + 1)
+        val deltaX = width / (columns + 1)
 
-        for (current in deltaY until width - deltaY step deltaY) {
+        for (current in deltaY until height - deltaY step deltaY) {
             canvas.drawLine(
                 0f,
                 current.toFloat(),
@@ -67,7 +77,7 @@ class IlSerpenteGameSurfaceView(context: Context, attributeSet: AttributeSet) :
             )
         }
 
-        for (current in deltaX until height - deltaY step deltaX) {
+        for (current in deltaX until width - deltaX step deltaX) {
             canvas.drawLine(
                 current.toFloat(),
                 0f,
@@ -78,44 +88,38 @@ class IlSerpenteGameSurfaceView(context: Context, attributeSet: AttributeSet) :
         }
     }
 
-    fun updateBoard(board: Board) {
-        holder.lockCanvas()?.let { canvas ->
-            drawGrid(canvas)
+    private fun drawBoard(canvas: Canvas, board: Board) {
+        val deltaY = height / (rows + 1)
+        val deltaX = width / (columns + 1)
 
-            val deltaX = width / (rows + 1)
-            val deltaY = height / (columns + 1)
+        var current = Pair(
+            deltaX * board.startPosition.first,
+            deltaY * board.startPosition.second
+        )
 
-            var current = Pair(
-                deltaX * board.startPosition.first,
-                deltaY * board.startPosition.second
-            )
+        // Draw starting point
+        canvas.drawCircle(
+            current.first.toFloat(),
+            current.second.toFloat(),
+            5f,
+            Paint().apply { color = Color.GREEN })
 
-            // Draw starting point
-            canvas.drawCircle(
-                current.first.toFloat(),
-                current.second.toFloat(),
-                5f,
-                Paint().apply { color = Color.GREEN })
-
-            for (move in board.moves) {
-                val next = when (move.gameMove) {
-                    GameMove.UP -> current.copy(second = current.second - deltaY)
-                    GameMove.DOWN -> current.copy(second = current.second + deltaY)
-                    GameMove.LEFT -> current.copy(first = current.first - deltaX)
-                    GameMove.RIGHT -> current.copy(first = current.first + deltaX)
-                }
-
-                canvas.drawLine(
-                    current.first.toFloat(),
-                    current.second.toFloat(),
-                    next.first.toFloat(),
-                    next.second.toFloat(),
-                    Paint().apply { color = move.player.color })
-
-                current = next
+        for (move in board.moves) {
+            val next = when (move.gameMove) {
+                GameMove.UP -> current.copy(second = current.second - deltaY)
+                GameMove.DOWN -> current.copy(second = current.second + deltaY)
+                GameMove.LEFT -> current.copy(first = current.first - deltaX)
+                GameMove.RIGHT -> current.copy(first = current.first + deltaX)
             }
 
-            holder.unlockCanvasAndPost(canvas)
+            canvas.drawLine(
+                current.first.toFloat(),
+                current.second.toFloat(),
+                next.first.toFloat(),
+                next.second.toFloat(),
+                Paint().apply { color = move.player.color })
+
+            current = next
         }
     }
 }
