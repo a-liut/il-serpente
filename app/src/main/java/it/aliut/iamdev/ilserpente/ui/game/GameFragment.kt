@@ -12,6 +12,7 @@ import androidx.core.view.GestureDetectorCompat
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
+import com.google.android.material.snackbar.Snackbar
 import it.aliut.iamdev.ilserpente.R
 import it.aliut.iamdev.ilserpente.game.GameMove
 import it.aliut.iamdev.ilserpente.game.player.ComputerPlayer
@@ -97,6 +98,11 @@ class GameFragment : Fragment() {
             if (canExit) {
                 activity!!.onBackPressed()
             }
+        })
+
+        viewModel.onInvalidMove.observe(viewLifecycleOwner, Observer {
+            Snackbar.make(game_surface, "Move not allowed! Try again.", Snackbar.LENGTH_SHORT)
+                .show()
         })
 
         viewModel.winner.observe(viewLifecycleOwner, Observer { winner ->

@@ -15,6 +15,7 @@ class GameEngine(
         fun onGameStateChanged(gameState: GameState)
         fun onCurrentPlayerChanged(player: Player)
         fun onGameFinished()
+        fun onInvalidMove(move: PlayerMove)
     }
 
     var gameEnded: Boolean = false
@@ -43,6 +44,7 @@ class GameEngine(
                         nextPlayer()
                     } else {
                         Timber.d("Invalid move: $move")
+                        callback.onInvalidMove(move)
                     }
                 }
             }

@@ -7,6 +7,7 @@ import it.aliut.iamdev.ilserpente.game.Board
 import it.aliut.iamdev.ilserpente.game.GameEngine
 import it.aliut.iamdev.ilserpente.game.GameMove
 import it.aliut.iamdev.ilserpente.game.GameState
+import it.aliut.iamdev.ilserpente.game.PlayerMove
 import it.aliut.iamdev.ilserpente.game.player.HumanPlayer
 import it.aliut.iamdev.ilserpente.game.player.Player
 import it.aliut.iamdev.ilserpente.utils.SingleLiveEvent
@@ -50,6 +51,10 @@ class GameViewModel : ViewModel(), GameEngine.Callback {
     private val _onExitGameEvent = SingleLiveEvent<Boolean>()
     val onExitGameEvent: LiveData<Boolean>
         get() = _onExitGameEvent
+
+    private val _onInvalidMove = SingleLiveEvent<PlayerMove>()
+    val onInvalidMove: LiveData<PlayerMove>
+        get() = _onInvalidMove
 
     /**
      * Starts the game. It sets up players and a new game and starts the main game cycle.
@@ -100,5 +105,9 @@ class GameViewModel : ViewModel(), GameEngine.Callback {
     override fun onGameFinished() {
         _winner.postValue(gameEngine.currentPlayer)
         _onEndGameEvent.postValue(true)
+    }
+
+    override fun onInvalidMove(move: PlayerMove) {
+        _onInvalidMove.postValue(move)
     }
 }
