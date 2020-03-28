@@ -7,7 +7,7 @@ data class GameState(
     val board: Board
 ) {
     fun applyMove(move: PlayerMove): Boolean {
-        if (!isValidMove(move, board)) {
+        if (!isValidMove(move)) {
             Timber.d("Invalid move: $move")
             return false
         }
@@ -21,6 +21,6 @@ data class GameState(
         }
     }
 
-    private fun isValidMove(move: PlayerMove, board: Board): Boolean =
+    fun isValidMove(move: PlayerMove): Boolean =
         move.gameMove in board.allowedMoves()
 }

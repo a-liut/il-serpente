@@ -5,7 +5,11 @@ import kotlinx.coroutines.GlobalScope
 import kotlinx.coroutines.launch
 import timber.log.Timber
 
-class GameEngine(var players: List<Player>, var gameState: GameState, val callback: Callback) {
+class GameEngine(
+    var players: List<Player>,
+    var gameState: GameState,
+    private val callback: Callback
+) {
 
     interface Callback {
         fun onGameStateChanged(gameState: GameState)
@@ -32,9 +36,14 @@ class GameEngine(var players: List<Player>, var gameState: GameState, val callba
                     Timber.d("Game finished!")
                     endGame()
                 } else {
-                    triggerMove(currentPlayer.getNextMove(gameState))
+                    val move = PlayerMove(currentPlayer, currentPlayer.getNextMove(gameState))
+                    if (gameState.isValidMove(move)) {
+                        triggerMove(move)
 
-                    nextPlayer()
+                        nextPlayer()
+                    } else {
+                        Timber.d("Invalid move: $move")
+                    }
                 }
             }
         }
@@ -51,8 +60,8 @@ class GameEngine(var players: List<Player>, var gameState: GameState, val callba
     /**
      * Trigger a game move by a player.
      */
-    private fun triggerMove(nextMove: GameMove) {
-        gameState.applyMove(PlayerMove(currentPlayer!!, nextMove))
+    private fun triggerMove(nextMove: PlayerMove) {
+        gameState.applyMove(nextMove)
 
         gameState = gameState.copy(movesCount = gameState.movesCount + 1)
         callback.onGameStateChanged(gameState)
