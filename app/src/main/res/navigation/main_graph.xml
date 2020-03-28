@@ -8,8 +8,7 @@
     <fragment
         android:id="@+id/mainFragment"
         android:name="it.aliut.iamdev.ilserpente.ui.main.MainFragment"
-        android:label="main_fragment"
-        tools:layout="@layout/game_fragment" >
+        tools:layout="@layout/main_fragment">
         <action
             android:id="@+id/action_mainFragment_to_gameFragment"
             app:destination="@id/gameFragment"
@@ -18,6 +17,5 @@
     <fragment
         android:id="@+id/gameFragment"
         android:name="it.aliut.iamdev.ilserpente.ui.game.GameFragment"
-        android:label="game_fragment"
         tools:layout="@layout/game_fragment" />
 </navigation>
