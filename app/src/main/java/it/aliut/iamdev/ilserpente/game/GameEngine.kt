@@ -1,7 +1,8 @@
 package it.aliut.iamdev.ilserpente.game
 
 import it.aliut.iamdev.ilserpente.game.player.Player
-import kotlinx.coroutines.GlobalScope
+import kotlinx.coroutines.CoroutineScope
+import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 import timber.log.Timber
 
@@ -20,34 +21,32 @@ class GameEngine(
 
     var gameEnded: Boolean = false
 
-    private var currentPlayerIdx: Int = -1
-
     var currentPlayer: Player? = null
 
-    init {
-        nextPlayer()
-    }
+    private var currentPlayerIdx: Int = -1
+
+    private val scope = CoroutineScope(Dispatchers.Default)
 
     fun start() {
-        GlobalScope.launch {
-            while (!gameEnded) {
-                val currentPlayer = players[currentPlayerIdx]
+        scope.launch {
+            do {
+                nextPlayer()
+
+                val move = PlayerMove(currentPlayer!!, currentPlayer!!.getNextMove(gameState))
+                if (gameState.isValidMove(move)) {
+                    triggerMove(move)
+                } else {
+                    Timber.d("Invalid move: $move")
+                    callback.onInvalidMove(move)
+                }
 
                 if (checkGameFinished(gameState)) {
-                    Timber.d("Game finished!")
                     endGame()
-                } else {
-                    val move = PlayerMove(currentPlayer, currentPlayer.getNextMove(gameState))
-                    if (gameState.isValidMove(move)) {
-                        triggerMove(move)
-
-                        nextPlayer()
-                    } else {
-                        Timber.d("Invalid move: $move")
-                        callback.onInvalidMove(move)
-                    }
                 }
-            }
+            } while (!gameEnded)
+
+            Timber.d("Game finished!")
+            endGame()
         }
     }
 
