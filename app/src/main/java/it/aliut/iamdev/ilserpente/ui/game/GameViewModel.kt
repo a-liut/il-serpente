@@ -11,7 +11,8 @@ import it.aliut.iamdev.ilserpente.game.PlayerMove
 import it.aliut.iamdev.ilserpente.game.player.HumanPlayer
 import it.aliut.iamdev.ilserpente.game.player.Player
 import it.aliut.iamdev.ilserpente.utils.SingleLiveEvent
-import kotlinx.coroutines.GlobalScope
+import kotlinx.coroutines.CoroutineScope
+import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 import timber.log.Timber
 
@@ -88,9 +89,11 @@ class GameViewModel : ViewModel(), GameEngine.Callback {
     }
 
     fun triggerPlayerMove(gameMove: GameMove) {
-        GlobalScope.launch {
-            (gameEngine.currentPlayer as? HumanPlayer)?.postMove(gameMove)
-                ?: Timber.d("Not a human player")
+        CoroutineScope(Dispatchers.Default).launch {
+            if (!gameEngine.gameEnded) {
+                (gameEngine.currentPlayer as? HumanPlayer)?.postMove(gameMove)
+                    ?: Timber.d("Not a human player")
+            }
         }
     }
 
