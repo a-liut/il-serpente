@@ -10,8 +10,8 @@ import android.view.ViewGroup
 import androidx.appcompat.app.AlertDialog
 import androidx.core.view.GestureDetectorCompat
 import androidx.fragment.app.Fragment
+import androidx.fragment.app.viewModels
 import androidx.lifecycle.Observer
-import androidx.lifecycle.ViewModelProvider
 import com.google.android.material.snackbar.Snackbar
 import it.aliut.iamdev.ilserpente.R
 import it.aliut.iamdev.ilserpente.game.GameMove
@@ -29,7 +29,7 @@ import timber.log.Timber
 
 class GameFragment : Fragment() {
 
-    private lateinit var viewModel: GameViewModel
+    private val viewModel: GameViewModel by viewModels()
 
     private lateinit var gestureDetector: GestureDetectorCompat
 
@@ -63,7 +63,6 @@ class GameFragment : Fragment() {
 
     override fun onActivityCreated(savedInstanceState: Bundle?) {
         super.onActivityCreated(savedInstanceState)
-        viewModel = ViewModelProvider(this).get(GameViewModel::class.java)
 
         val players = ArrayList<Player>()
         players.add(ComputerPlayer("(Computer) Player One", Color.RED))
