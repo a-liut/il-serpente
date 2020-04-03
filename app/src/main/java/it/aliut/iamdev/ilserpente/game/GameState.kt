@@ -6,18 +6,18 @@ data class GameState(
     val movesCount: Int,
     val board: Board
 ) {
-    fun applyMove(move: PlayerMove): Boolean {
+    fun applyMove(move: PlayerMove): GameState {
         if (!isValidMove(move)) {
             Timber.d("Invalid move: $move")
-            return false
+            return this
         }
 
         return try {
             board.applyMove(move)
 
-            true
+            copy(movesCount = movesCount + 1)
         } catch (ex: MoveNotAllowedException) {
-            false
+            this
         }
     }
 
