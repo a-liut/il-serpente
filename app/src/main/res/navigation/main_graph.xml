@@ -7,7 +7,7 @@
 
     <fragment
         android:id="@+id/mainFragment"
-        android:name="it.aliut.iamdev.ilserpente.ui.main.MainFragment"
+        android:name="it.aliut.ilserpente.ui.main.MainFragment"
         tools:layout="@layout/main_fragment">
         <action
             android:id="@+id/action_mainFragment_to_ModeSelectionFragment"
@@ -17,14 +17,14 @@
     </fragment>
     <fragment
         android:id="@+id/gameFragment"
-        android:name="it.aliut.iamdev.ilserpente.ui.game.GameFragment"
+        android:name="it.aliut.ilserpente.ui.game.GameFragment"
         tools:layout="@layout/game_fragment">
         <argument android:name="gamedata"
-            app:argType="it.aliut.iamdev.ilserpente.game.GameData" />
+            app:argType="it.aliut.ilserpente.game.GameData" />
     </fragment>
     <fragment
         android:id="@+id/modeSelectionFragment"
-        android:name="it.aliut.iamdev.ilserpente.ui.modeselection.ModeSelectionFragment"
+        android:name="it.aliut.ilserpente.ui.modeselection.ModeSelectionFragment"
         android:label="ModeSelectionFragment"
         tools:layout="@layout/modeselection_fragment">
         <action

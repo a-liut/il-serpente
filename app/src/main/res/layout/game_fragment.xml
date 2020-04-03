@@ -17,7 +17,7 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
 
-    <it.aliut.iamdev.ilserpente.ui.views.PlayerGameCardView
+    <it.aliut.ilserpente.ui.views.PlayerGameCardView
         android:id="@+id/player_card_one"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
@@ -27,7 +27,7 @@
         app:layout_constraintTop_toBottomOf="@+id/button_back"
         tools:player_name="Player One" />
 
-    <it.aliut.iamdev.ilserpente.ui.views.PlayerGameCardView
+    <it.aliut.ilserpente.ui.views.PlayerGameCardView
         android:id="@+id/player_card_two"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
@@ -36,7 +36,7 @@
         app:layout_constraintTop_toBottomOf="@+id/player_card_one"
         tools:player_name="Player Two" />
 
-    <it.aliut.iamdev.ilserpente.ui.views.IlSerpenteGameSurfaceView
+    <it.aliut.ilserpente.ui.views.IlSerpenteGameSurfaceView
         android:id="@+id/game_surface"
         android:layout_width="0dp"
         android:layout_height="0dp"
