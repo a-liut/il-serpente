@@ -37,6 +37,5 @@
     <fragment
         android:id="@+id/settingsFragment"
         android:name="it.aliut.ilserpente.ui.settings.SettingsFragment"
-        android:label="SettingsFragment"
         tools:layout="@layout/settings_fragment" />
 </navigation>
