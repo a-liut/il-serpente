@@ -12,7 +12,6 @@ import it.aliut.iamdev.ilserpente.utils.SingleLiveEvent
 class ModeSelectionViewModel : ViewModel() {
 
     private val _startGameEvent = SingleLiveEvent<GameData>()
-
     val startGameEvent: LiveData<GameData>
         get() = _startGameEvent
 
