@@ -62,7 +62,7 @@ class GameViewModel : ViewModel(), GameEngine.Callback {
      * Each player is asked in turn to produce a move. Then, the move is applied to the board.
      * If the game ends, it notifies the observers.
      */
-    fun startGame(players: ArrayList<Player>) {
+    fun startGame(players: List<Player>) {
         gameEngine = GameEngine(
             players,
             GameState(0, Board(DEFAULT_ROW_COUNT, DEFAULT_COLUMN_COUNT)),

@@ -12,13 +12,13 @@ class Board(
 
     private val cells: HashSet<Pair<Int, Int>> = HashSet()
 
-    val moves: ArrayList<PlayerMove> = arrayListOf()
+    val moves: MutableList<PlayerMove> = mutableListOf()
 
     init {
         cells.add(currentPosition)
     }
 
-    fun allowedMoves(): List<GameMove> = arrayListOf<GameMove>().apply {
+    fun allowedMoves(): List<GameMove> = mutableListOf<GameMove>().apply {
         val leftPos = currentPosition.copy(first = currentPosition.first - 1)
         val rightPos = currentPosition.copy(first = currentPosition.first + 1)
         val upPos = currentPosition.copy(second = currentPosition.second - 1)

@@ -30,9 +30,9 @@ class MainFragment : Fragment(), View.OnClickListener {
     override fun onActivityCreated(savedInstanceState: Bundle?) {
         super.onActivityCreated(savedInstanceState)
 
-        viewModel.startGameEvent.observe(viewLifecycleOwner, Observer { startGame ->
+        viewModel.startEvent.observe(viewLifecycleOwner, Observer { startGame ->
             if (startGame) {
-                findNavController().navigate(MainFragmentDirections.actionMainFragmentToGameFragment())
+                findNavController().navigate(MainFragmentDirections.actionMainFragmentToModeSelectionFragment())
             }
         })
     }

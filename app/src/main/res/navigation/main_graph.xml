@@ -10,12 +10,27 @@
         android:name="it.aliut.iamdev.ilserpente.ui.main.MainFragment"
         tools:layout="@layout/main_fragment">
         <action
-            android:id="@+id/action_mainFragment_to_gameFragment"
-            app:destination="@id/gameFragment"
-            app:popUpTo="@id/mainFragment" />
+            android:id="@+id/action_mainFragment_to_ModeSelectionFragment"
+            app:destination="@id/modeSelectionFragment"
+            app:popUpTo="@id/mainFragment"
+            app:popUpToInclusive="false" />
     </fragment>
     <fragment
         android:id="@+id/gameFragment"
         android:name="it.aliut.iamdev.ilserpente.ui.game.GameFragment"
-        tools:layout="@layout/game_fragment" />
+        tools:layout="@layout/game_fragment">
+        <argument android:name="gamedata"
+            app:argType="it.aliut.iamdev.ilserpente.game.GameData" />
+    </fragment>
+    <fragment
+        android:id="@+id/modeSelectionFragment"
+        android:name="it.aliut.iamdev.ilserpente.ui.modeselection.ModeSelectionFragment"
+        android:label="ModeSelectionFragment"
+        tools:layout="@layout/modeselection_fragment">
+        <action
+            android:id="@+id/action_modeSelectionFragment_to_gameFragment"
+            app:destination="@id/gameFragment"
+            app:popUpTo="@id/mainFragment"
+            app:popUpToInclusive="false" />
+    </fragment>
 </navigation>

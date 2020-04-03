@@ -2,4 +2,7 @@
     <string name="app_name">Il Serpente</string>
     <string name="main_start">Start</string>
     <string name="game_moves">Moves:</string>
+    <string name="modeselection_title">Select your opponent!</string>
+    <string name="button_1v1_text">1 vs 1</string>
+    <string name="button_single_text">Single player</string>
 </resources>

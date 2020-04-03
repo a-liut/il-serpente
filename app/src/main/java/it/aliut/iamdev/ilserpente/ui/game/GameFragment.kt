@@ -1,6 +1,5 @@
 package it.aliut.iamdev.ilserpente.ui.game
 
-import android.graphics.Color
 import android.os.Bundle
 import android.view.GestureDetector
 import android.view.LayoutInflater
@@ -12,12 +11,11 @@ import androidx.core.view.GestureDetectorCompat
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.Observer
+import androidx.navigation.fragment.findNavController
+import androidx.navigation.fragment.navArgs
 import com.google.android.material.snackbar.Snackbar
 import it.aliut.iamdev.ilserpente.R
 import it.aliut.iamdev.ilserpente.game.GameMove
-import it.aliut.iamdev.ilserpente.game.player.ComputerPlayer
-import it.aliut.iamdev.ilserpente.game.player.HumanPlayer
-import it.aliut.iamdev.ilserpente.game.player.Player
 import kotlin.math.PI
 import kotlin.math.abs
 import kotlin.math.atan
@@ -30,6 +28,8 @@ import timber.log.Timber
 class GameFragment : Fragment() {
 
     private val viewModel: GameViewModel by viewModels()
+
+    private val args: GameFragmentArgs by navArgs()
 
     private lateinit var gestureDetector: GestureDetectorCompat
 
@@ -64,9 +64,7 @@ class GameFragment : Fragment() {
     override fun onActivityCreated(savedInstanceState: Bundle?) {
         super.onActivityCreated(savedInstanceState)
 
-        val players = ArrayList<Player>()
-        players.add(ComputerPlayer("(Computer) Player One", Color.RED))
-        players.add(HumanPlayer("(Human) Player Two", Color.BLUE))
+        val players = args.gamedata.players
 
         viewModel.players.observe(viewLifecycleOwner, Observer { gamePlayers ->
             player_card_one.player = gamePlayers[0]
@@ -95,7 +93,7 @@ class GameFragment : Fragment() {
 
         viewModel.onExitGameEvent.observe(viewLifecycleOwner, Observer { canExit ->
             if (canExit) {
-                activity!!.onBackPressed()
+                findNavController().navigateUp()
             }
         })
 
