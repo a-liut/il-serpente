@@ -23,49 +23,50 @@ class GameEngine(
 
     var gameEnded: Boolean = false
 
-    var currentPlayer: Player? = null
+    lateinit var currentPlayer: Player
 
     private var currentPlayerIdx: Int = -1
 
+    init {
+        nextPlayer()
+    }
+
     fun start() {
         CoroutineScope(Dispatchers.Default).launch {
-            var swapPlayer = true
+            runGame()
+        }
+    }
 
-            try {
-                while (!gameEnded) {
-                    if (isGameFinished(gameState)) {
-                        endGame()
+    private suspend fun runGame() {
+        try {
+            while (!gameEnded) {
+                if (isGameFinished()) {
+                    endGame()
+                } else {
+                    val move = PlayerMove(
+                        currentPlayer,
+                        currentPlayer.getNextMove(gameState)
+                    )
+                    if (gameState.isValidMove(move)) {
+                        triggerMove(move)
+
+                        nextPlayer()
                     } else {
-                        if (swapPlayer) nextPlayer()
-
-                        val move = PlayerMove(
-                            currentPlayer!!,
-                            currentPlayer!!.getNextMove(gameState)
-                        )
-                        swapPlayer = if (gameState.isValidMove(move)) {
-                            triggerMove(move)
-
-                            true
-                        } else {
-                            Timber.d("Invalid move: $move")
-                            callback.onInvalidMove(move)
-
-                            false
-                        }
+                        Timber.d("Invalid move: $move")
+                        callback.onInvalidMove(move)
                     }
                 }
-            } catch (ex: ClosedReceiveChannelException) {
-                Timber.d("Human Player interrupted")
             }
-
-            Timber.d("Game thread exits!")
+        } catch (ex: ClosedReceiveChannelException) {
+            Timber.d("Human Player interrupted")
         }
+
+        Timber.d("Game thread exits!")
     }
 
     fun endGame() {
         if (!gameEnded) {
             gameEnded = true
-            // supervisorJob.cancel()
 
             players
                 .filterIsInstance<HumanPlayer>()
@@ -81,13 +82,12 @@ class GameEngine(
      * Trigger a game move by a player.
      */
     private fun triggerMove(nextMove: PlayerMove) {
-        gameState.applyMove(nextMove)
+        gameState = gameState.applyMove(nextMove)
 
-        gameState = gameState.copy(movesCount = gameState.movesCount + 1)
         callback.onGameStateChanged(gameState)
     }
 
-    private fun isGameFinished(gameState: GameState) = gameState.board.allowedMoves().isEmpty()
+    private fun isGameFinished() = gameState.board.allowedMoves().isEmpty()
 
     /**
      * Switch current player.
@@ -96,6 +96,6 @@ class GameEngine(
         currentPlayerIdx = (currentPlayerIdx + 1) % players.size
         currentPlayer = players[currentPlayerIdx]
 
-        callback.onCurrentPlayerChanged(currentPlayer!!)
+        callback.onCurrentPlayerChanged(currentPlayer)
     }
 }
