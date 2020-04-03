@@ -5,4 +5,6 @@
     <string name="modeselection_title">Select your opponent!</string>
     <string name="button_1v1_text">1 vs 1</string>
     <string name="button_single_text">Single player</string>
+    <string name="main_nav_play_text">Play</string>
+    <string name="main_nav_settings_text">Settings</string>
 </resources>

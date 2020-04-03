@@ -19,7 +19,8 @@
         android:id="@+id/gameFragment"
         android:name="it.aliut.ilserpente.ui.game.GameFragment"
         tools:layout="@layout/game_fragment">
-        <argument android:name="gamedata"
+        <argument
+            android:name="gamedata"
             app:argType="it.aliut.ilserpente.game.GameData" />
     </fragment>
     <fragment
@@ -33,4 +34,9 @@
             app:popUpTo="@id/mainFragment"
             app:popUpToInclusive="false" />
     </fragment>
+    <fragment
+        android:id="@+id/settingsFragment"
+        android:name="it.aliut.ilserpente.ui.settings.SettingsFragment"
+        android:label="SettingsFragment"
+        tools:layout="@layout/settings_fragment" />
 </navigation>
