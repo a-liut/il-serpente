@@ -8,8 +8,6 @@ import androidx.core.widget.addTextChangedListener
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.Observer
-import androidx.navigation.fragment.findNavController
-import androidx.navigation.ui.setupWithNavController
 import it.aliut.ilserpente.R
 import kotlinx.android.synthetic.main.settings_fragment.*
 import kotlinx.android.synthetic.main.settings_fragment.view.*
@@ -24,8 +22,6 @@ class SettingsFragment : Fragment() {
         savedInstanceState: Bundle?
     ): View {
         val layout = inflater.inflate(R.layout.settings_fragment, container, false)
-
-        layout.toolbar_settings.setupWithNavController(findNavController())
 
         layout.inputedit_user_name.addTextChangedListener { username ->
             viewModel.setUsername(username.toString())
