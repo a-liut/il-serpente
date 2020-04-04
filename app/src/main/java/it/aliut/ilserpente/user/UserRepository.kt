@@ -11,7 +11,7 @@ interface UserRepository {
 class SharedPreferenceUserRepository(private val application: Application) : UserRepository {
 
     override fun getCurrentUser() = User(
-        name = getPreferences().getString("username", "guest") ?: "guest"
+        name = getPreferences().getString("username", User.DEFAULT_NAME) ?: User.DEFAULT_NAME
     )
 
     override fun updateCurrentUser(user: User) {
