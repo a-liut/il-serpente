@@ -8,9 +8,9 @@
     android:padding="8dp">
 
     <ImageView
-        android:id="@+id/image_player_color"
+        android:id="@+id/image_player_avatar"
         android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
+        android:layout_height="match_parent"
         android:layout_gravity="center"
         android:src="@drawable/player_gamecard_player_color" />
 

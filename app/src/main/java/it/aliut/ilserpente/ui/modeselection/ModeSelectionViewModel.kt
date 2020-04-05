@@ -9,6 +9,7 @@ import it.aliut.ilserpente.game.GameMode
 import it.aliut.ilserpente.game.player.ComputerPlayer
 import it.aliut.ilserpente.game.player.HumanPlayer
 import it.aliut.ilserpente.user.SharedPreferenceUserRepository
+import it.aliut.ilserpente.user.User
 import it.aliut.ilserpente.user.UserRepository
 import it.aliut.ilserpente.utils.SingleLiveEvent
 
@@ -25,7 +26,7 @@ class ModeSelectionViewModel(application: Application) : AndroidViewModel(applic
             GameMode.SINGLE,
             listOf(
                 ComputerPlayer("(Computer) Player One", Color.RED),
-                HumanPlayer(getUser().name, Color.BLUE)
+                HumanPlayer(getUser(), Color.BLUE)
             )
         )
     }
@@ -34,8 +35,13 @@ class ModeSelectionViewModel(application: Application) : AndroidViewModel(applic
         _startGameEvent.value = GameData(
             GameMode.ONE_VS_ONE,
             listOf(
-                HumanPlayer(getUser().name, Color.RED),
-                HumanPlayer("Player Two", Color.BLUE)
+                HumanPlayer(getUser(), Color.RED),
+                HumanPlayer(
+                    User(
+                        name = "Player Two",
+                        photoUrl = null
+                    ), Color.BLUE
+                )
             )
         )
     }
