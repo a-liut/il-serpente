@@ -21,8 +21,14 @@ class SettingsViewModel(application: Application) : AndroidViewModel(application
         _user.value = storedUser
     }
 
-    fun setUsername(username: String) {
-        _user.value!!.name = username
+    fun setUserName(newName: String) {
+        _user.value = _user.value!!.copy(name = newName)
+
+        saveUser()
+    }
+
+    fun setUserPhotoUrl(photoUrl: String) {
+        _user.value = _user.value!!.copy(photoUrl = photoUrl)
 
         saveUser()
     }

@@ -1,6 +1,9 @@
 package it.aliut.ilserpente.user
 
-class User(var name: String) {
+data class User(
+    var name: String,
+    var photoUrl: String? = null
+) {
     companion object {
         const val DEFAULT_NAME = "Guest"
     }

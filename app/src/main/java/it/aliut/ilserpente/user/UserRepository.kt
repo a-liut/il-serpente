@@ -11,12 +11,14 @@ interface UserRepository {
 class SharedPreferenceUserRepository(private val application: Application) : UserRepository {
 
     override fun getCurrentUser() = User(
-        name = getPreferences().getString("username", User.DEFAULT_NAME) ?: User.DEFAULT_NAME
+        name = getPreferences().getString("username", User.DEFAULT_NAME) ?: User.DEFAULT_NAME,
+        photoUrl = getPreferences().getString("photoUrl", null)
     )
 
     override fun updateCurrentUser(user: User) {
         with(getPreferences().edit()) {
             putString("username", user.name)
+            putString("photoUrl", user.photoUrl)
             commit()
         }
     }
