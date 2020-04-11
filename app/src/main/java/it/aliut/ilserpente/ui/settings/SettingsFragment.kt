@@ -70,7 +70,6 @@ class SettingsFragment : Fragment(), View.OnClickListener {
         GoogleSignIn.getLastSignedInAccount(context!!)
             ?.let {
                 updateUser(it)
-                showMessage(getString(R.string.google_login_success, it.displayName))
             }
     }
 
@@ -111,7 +110,8 @@ class SettingsFragment : Fragment(), View.OnClickListener {
     private fun onLoginCompleted(task: Task<GoogleSignInAccount>) {
         try {
             task.getResult(ApiException::class.java)
-                ?.let { updateUser(it) }
+                ?.also { updateUser(it) }
+                ?.also { showMessage(getString(R.string.google_login_success, it.displayName)) }
                 ?: showMessage(getString(R.string.google_login_error))
         } catch (ex: ApiException) {
             showMessage(getString(R.string.google_login_error))
