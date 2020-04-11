@@ -11,4 +11,5 @@
     <string name="sign_in_with_google">Sign-in with Google</string>
     <string name="google_login_error">Cannot sign in with Google. Retry later.</string>
     <string name="google_login_success">Logged in as %1$s</string>
+    <string name="user_logout">Logout</string>
 </resources>

@@ -26,6 +26,12 @@ class SettingsFragment : Fragment(), View.OnClickListener {
 
     private val viewModel: SettingsViewModel by viewModels()
 
+    private var loggedWithGoogle: Boolean = false
+
+    private val gso = GoogleSignInOptions.Builder(GoogleSignInOptions.DEFAULT_SIGN_IN)
+        .requestProfile()
+        .build()
+
     override fun onCreateView(
         inflater: LayoutInflater,
         container: ViewGroup?,
@@ -34,6 +40,7 @@ class SettingsFragment : Fragment(), View.OnClickListener {
         val layout = inflater.inflate(R.layout.settings_fragment, container, false)
 
         layout.button_google_signin.setOnClickListener(this)
+        layout.button_google_logout.setOnClickListener(this)
 
         return layout
     }
@@ -46,6 +53,14 @@ class SettingsFragment : Fragment(), View.OnClickListener {
             Glide.with(this)
                 .load(user.photoUrl ?: R.drawable.ic_launcher_foreground)
                 .into(image_user_picture)
+
+            if (loggedWithGoogle) {
+                button_google_signin.visibility = View.INVISIBLE
+                button_google_logout.visibility = View.VISIBLE
+            } else {
+                button_google_signin.visibility = View.VISIBLE
+                button_google_logout.visibility = View.INVISIBLE
+            }
         })
     }
 
@@ -54,25 +69,49 @@ class SettingsFragment : Fragment(), View.OnClickListener {
 
         GoogleSignIn.getLastSignedInAccount(context!!)
             ?.let {
-                viewModel.updateUser(it)
+                updateUser(it)
                 showMessage(getString(R.string.google_login_success, it.displayName))
             }
     }
 
-    private fun performGoogleLogin() {
-        val gso = GoogleSignInOptions.Builder(GoogleSignInOptions.DEFAULT_SIGN_IN)
-            .requestProfile()
-            .build()
+    override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
+        super.onActivityResult(requestCode, resultCode, data)
 
+        if (requestCode == RC_SIGN_IN) {
+            val task = GoogleSignIn.getSignedInAccountFromIntent(data)
+            onLoginCompleted(task)
+        }
+    }
+
+    private fun performGoogleSignout() {
         val client = GoogleSignIn.getClient(context!!, gso)
 
         startActivityForResult(client.signInIntent, RC_SIGN_IN)
     }
 
+    private fun performGoogleLogout() {
+        val client = GoogleSignIn.getClient(context!!, gso)
+
+        client.signOut().addOnCompleteListener {
+            showMessage("User signed out!")
+            clearUser()
+        }
+    }
+
+    private fun updateUser(account: GoogleSignInAccount) {
+        loggedWithGoogle = true
+        viewModel.updateUser(account)
+    }
+
+    private fun clearUser() {
+        loggedWithGoogle = false
+        viewModel.updateUser(null)
+    }
+
     private fun onLoginCompleted(task: Task<GoogleSignInAccount>) {
         try {
             task.getResult(ApiException::class.java)
-                ?.let { viewModel.updateUser(it) }
+                ?.let { updateUser(it) }
                 ?: showMessage(getString(R.string.google_login_error))
         } catch (ex: ApiException) {
             showMessage(getString(R.string.google_login_error))
@@ -89,17 +128,9 @@ class SettingsFragment : Fragment(), View.OnClickListener {
     }
 
     override fun onClick(view: View) {
-        if (view.id == button_google_signin.id) {
-            performGoogleLogin()
-        }
-    }
-
-    override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
-        super.onActivityResult(requestCode, resultCode, data)
-
-        if (requestCode == RC_SIGN_IN) {
-            val task = GoogleSignIn.getSignedInAccountFromIntent(data)
-            onLoginCompleted(task)
+        when (view.id) {
+            button_google_signin.id -> performGoogleSignout()
+            button_google_logout.id -> performGoogleLogout()
         }
     }
 }

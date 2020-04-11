@@ -21,14 +21,14 @@ class SettingsViewModel(application: Application) : AndroidViewModel(application
         _user.value = loadUser()
     }
 
-    fun updateUser(account: GoogleSignInAccount) {
-        val newUser = User(
-            name = account.displayName.toString(),
-            photoUrl = account.photoUrl.toString()
+    fun updateUser(account: GoogleSignInAccount?) {
+        val updatedUser = User(
+            name = account?.displayName ?: User.DEFAULT_NAME,
+            photoUrl = account?.photoUrl?.toString()
         )
 
-        userRepository.updateCurrentUser(newUser)
-        _user.value = newUser
+        userRepository.updateCurrentUser(updatedUser)
+        _user.value = updatedUser
     }
 
     private fun loadUser(): User = userRepository.getCurrentUser()
