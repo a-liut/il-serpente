@@ -47,6 +47,7 @@
             android:id="@+id/inputedit_user_name"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            android:enabled="false"
             android:hint="@string/settings_user_name_title"
             android:inputType="text"
             android:maxLines="1" />
