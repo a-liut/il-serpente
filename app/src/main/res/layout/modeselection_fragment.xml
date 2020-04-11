@@ -24,18 +24,6 @@
         app:layout_constraintGuide_percent="0.2" />
 
     <Button
-        android:id="@+id/button_1v1"
-        style="@style/Widget.MaterialComponents.Button"
-        android:layout_width="0dp"
-        android:layout_height="0dp"
-        android:layout_margin="@dimen/selectmode_button_margin"
-        android:text="@string/button_1v1_text"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/button_single" />
-
-    <Button
         android:id="@+id/button_single"
         style="@style/Widget.MaterialComponents.Button"
         android:layout_width="0dp"
@@ -46,4 +34,29 @@
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="@+id/guideline2" />
+
+    <Button
+        android:id="@+id/button_1v1"
+        style="@style/Widget.MaterialComponents.Button"
+        android:layout_width="0dp"
+        android:layout_height="0dp"
+        android:layout_margin="@dimen/selectmode_button_margin"
+        android:text="@string/button_1v1_text"
+        app:layout_constraintBottom_toTopOf="@+id/button_multiplayer"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/button_single" />
+
+    <Button
+        android:id="@+id/button_multiplayer"
+        style="@style/Widget.MaterialComponents.Button"
+        android:layout_width="0dp"
+        android:layout_height="0dp"
+        android:layout_margin="@dimen/selectmode_button_margin"
+        android:layout_marginTop="24dp"
+        android:text="@string/button_multiplayer_text"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/button_1v1" />
 </androidx.constraintlayout.widget.ConstraintLayout>

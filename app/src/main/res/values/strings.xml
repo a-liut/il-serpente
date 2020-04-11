@@ -12,4 +12,5 @@
     <string name="google_login_error">Cannot sign in with Google. Retry later.</string>
     <string name="google_login_success">Logged in as %1$s</string>
     <string name="user_logout">Logout</string>
+    <string name="button_multiplayer_text">Multiplayer</string>
 </resources>
