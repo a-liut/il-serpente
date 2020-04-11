@@ -16,7 +16,6 @@ import com.google.android.gms.common.api.ApiException
 import com.google.android.gms.tasks.Task
 import com.google.android.material.snackbar.Snackbar
 import it.aliut.ilserpente.R
-import it.aliut.ilserpente.user.User
 import kotlinx.android.synthetic.main.settings_fragment.*
 import kotlinx.android.synthetic.main.settings_fragment.view.*
 import timber.log.Timber
@@ -50,10 +49,14 @@ class SettingsFragment : Fragment(), View.OnClickListener {
         })
     }
 
-    override fun onDestroyView() {
-        super.onDestroyView()
+    override fun onStart() {
+        super.onStart()
 
-        viewModel.setUserName(inputedit_user_name.text.toString())
+        GoogleSignIn.getLastSignedInAccount(context!!)
+            ?.let {
+                viewModel.updateUser(it)
+                showMessage(getString(R.string.google_login_success, it.displayName))
+            }
     }
 
     private fun performGoogleLogin() {
@@ -68,24 +71,21 @@ class SettingsFragment : Fragment(), View.OnClickListener {
 
     private fun onLoginCompleted(task: Task<GoogleSignInAccount>) {
         try {
-            val account = task.getResult(ApiException::class.java)
-
-            updateUser(account!!)
+            task.getResult(ApiException::class.java)
+                ?.let { viewModel.updateUser(it) }
+                ?: showMessage(getString(R.string.google_login_error))
         } catch (ex: ApiException) {
-            Snackbar.make(
-                button_google_signin,
-                "Cannot sign in with Google. Retry later.",
-                Snackbar.LENGTH_LONG
-            ).show()
+            showMessage(getString(R.string.google_login_error))
             Timber.d("Google SignIn failed: ${ex.statusCode}")
         }
     }
 
-    private fun updateUser(account: GoogleSignInAccount) {
-        viewModel.setUserName(
-            account.displayName ?: account.givenName ?: account.familyName ?: User.DEFAULT_NAME
-        )
-        viewModel.setUserPhotoUrl(account.photoUrl.toString())
+    private fun showMessage(message: String) {
+        Snackbar.make(
+            button_google_signin,
+            message,
+            Snackbar.LENGTH_LONG
+        ).show()
     }
 
     override fun onClick(view: View) {

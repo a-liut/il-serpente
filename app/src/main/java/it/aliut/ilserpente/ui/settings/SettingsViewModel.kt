@@ -4,37 +4,31 @@ import android.app.Application
 import androidx.lifecycle.AndroidViewModel
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
+import com.google.android.gms.auth.api.signin.GoogleSignInAccount
 import it.aliut.ilserpente.user.SharedPreferenceUserRepository
 import it.aliut.ilserpente.user.User
+import it.aliut.ilserpente.user.UserRepository
 
 class SettingsViewModel(application: Application) : AndroidViewModel(application) {
 
-    private val userRepository = SharedPreferenceUserRepository(application)
+    private val userRepository: UserRepository = SharedPreferenceUserRepository(application)
 
     private val _user = MutableLiveData<User>()
     val user: LiveData<User>
         get() = _user
 
     init {
-        val storedUser = loadUser()
-
-        _user.value = storedUser
+        _user.value = loadUser()
     }
 
-    fun setUserName(newName: String) {
-        _user.value = _user.value!!.copy(name = newName)
+    fun updateUser(account: GoogleSignInAccount) {
+        val newUser = User(
+            name = account.displayName.toString(),
+            photoUrl = account.photoUrl.toString()
+        )
 
-        saveUser()
-    }
-
-    fun setUserPhotoUrl(photoUrl: String) {
-        _user.value = _user.value!!.copy(photoUrl = photoUrl)
-
-        saveUser()
-    }
-
-    private fun saveUser() {
-        userRepository.updateCurrentUser(_user.value!!)
+        userRepository.updateCurrentUser(newUser)
+        _user.value = newUser
     }
 
     private fun loadUser(): User = userRepository.getCurrentUser()
