@@ -82,7 +82,7 @@ class SettingsFragment : Fragment(), View.OnClickListener {
         }
     }
 
-    private fun performGoogleSignout() {
+    private fun performGoogleSignIn() {
         val client = GoogleSignIn.getClient(context!!, gso)
 
         startActivityForResult(client.signInIntent, RC_SIGN_IN)
@@ -129,7 +129,7 @@ class SettingsFragment : Fragment(), View.OnClickListener {
 
     override fun onClick(view: View) {
         when (view.id) {
-            button_google_signin.id -> performGoogleSignout()
+            button_google_signin.id -> performGoogleSignIn()
             button_google_logout.id -> performGoogleLogout()
         }
     }
