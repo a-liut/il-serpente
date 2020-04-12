@@ -13,4 +13,6 @@
     <string name="google_login_success">Logged in as %1$s</string>
     <string name="user_logout">Logout</string>
     <string name="button_multiplayer_text">Multiplayer</string>
+    <string name="multiplayer_title">Multiplayer</string>
+    <string name="buttom_random_opponent_text">Random opponent</string>
 </resources>

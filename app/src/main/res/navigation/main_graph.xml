@@ -33,9 +33,23 @@
             app:destination="@id/gameFragment"
             app:popUpTo="@id/mainFragment"
             app:popUpToInclusive="false" />
+        <action
+            android:id="@+id/action_modeSelectionFragment_to_multiplayerModeFragment"
+            app:destination="@id/multiplayerModeFragment"
+            app:popUpTo="@id/modeSelectionFragment" />
     </fragment>
     <fragment
         android:id="@+id/settingsFragment"
         android:name="it.aliut.ilserpente.ui.settings.SettingsFragment"
         tools:layout="@layout/settings_fragment" />
+    <fragment
+        android:id="@+id/multiplayerModeFragment"
+        android:name="it.aliut.ilserpente.ui.multiplayer.MultiplayerModeFragment"
+        android:label="MultiplayerModeFragment"
+        tools:layout="@layout/multiplayermode_fragment" >
+        <action
+            android:id="@+id/action_multiplayerModeFragment_to_gameFragment"
+            app:destination="@id/gameFragment"
+            app:popUpTo="@id/mainFragment" />
+    </fragment>
 </navigation>

@@ -26,6 +26,7 @@ class ModeSelectionFragment : Fragment(), View.OnClickListener {
 
         layout.button_single.setOnClickListener(this)
         layout.button_1v1.setOnClickListener(this)
+        layout.button_multiplayer.setOnClickListener(this)
 
         return layout
     }
@@ -34,7 +35,11 @@ class ModeSelectionFragment : Fragment(), View.OnClickListener {
         super.onActivityCreated(savedInstanceState)
 
         viewModel.startGameEvent.observe(viewLifecycleOwner, Observer { gameData ->
-            findNavController().navigate(ModeSelectionFragmentDirections.actionModeSelectionFragmentToGameFragment(gameData))
+            findNavController().navigate(
+                ModeSelectionFragmentDirections.actionModeSelectionFragmentToGameFragment(
+                    gameData
+                )
+            )
         })
     }
 
@@ -42,6 +47,8 @@ class ModeSelectionFragment : Fragment(), View.OnClickListener {
         when (view?.id) {
             button_single.id -> viewModel.startSingle()
             button_1v1.id -> viewModel.start1v1()
+            button_multiplayer.id ->
+                findNavController().navigate(ModeSelectionFragmentDirections.actionModeSelectionFragmentToMultiplayerModeFragment())
             else -> Timber.d("This should never happen")
         }
     }
