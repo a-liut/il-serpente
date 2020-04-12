@@ -5,17 +5,17 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.Fragment
-import androidx.fragment.app.viewModels
 import androidx.lifecycle.Observer
 import androidx.navigation.fragment.findNavController
 import it.aliut.ilserpente.R
 import kotlinx.android.synthetic.main.modeselection_fragment.*
 import kotlinx.android.synthetic.main.modeselection_fragment.view.*
+import org.koin.android.viewmodel.ext.android.viewModel
 import timber.log.Timber
 
 class ModeSelectionFragment : Fragment(), View.OnClickListener {
 
-    private val viewModel: ModeSelectionViewModel by viewModels()
+    private val viewModel: ModeSelectionViewModel by viewModel()
 
     override fun onCreateView(
         inflater: LayoutInflater,
@@ -34,7 +34,11 @@ class ModeSelectionFragment : Fragment(), View.OnClickListener {
         super.onActivityCreated(savedInstanceState)
 
         viewModel.startGameEvent.observe(viewLifecycleOwner, Observer { gameData ->
-            findNavController().navigate(ModeSelectionFragmentDirections.actionModeSelectionFragmentToGameFragment(gameData))
+            findNavController().navigate(
+                ModeSelectionFragmentDirections.actionModeSelectionFragmentToGameFragment(
+                    gameData
+                )
+            )
         })
     }
 
