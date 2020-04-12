@@ -6,7 +6,6 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.Fragment
-import androidx.fragment.app.viewModels
 import androidx.lifecycle.Observer
 import com.bumptech.glide.Glide
 import com.google.android.gms.auth.api.signin.GoogleSignIn
@@ -18,13 +17,14 @@ import com.google.android.material.snackbar.Snackbar
 import it.aliut.ilserpente.R
 import kotlinx.android.synthetic.main.settings_fragment.*
 import kotlinx.android.synthetic.main.settings_fragment.view.*
+import org.koin.android.viewmodel.ext.android.viewModel
 import timber.log.Timber
 
 class SettingsFragment : Fragment(), View.OnClickListener {
 
     private val RC_SIGN_IN = 42
 
-    private val viewModel: SettingsViewModel by viewModels()
+    private val viewModel: SettingsViewModel by viewModel()
 
     private var loggedWithGoogle: Boolean = false
 
