@@ -33,8 +33,7 @@ class MultiplayerModeFragment : Fragment(), View.OnClickListener {
         super.onActivityCreated(savedInstanceState)
 
         viewModel.loading.observe(viewLifecycleOwner, Observer { isLoading ->
-            progress.visibility = if (isLoading) View.VISIBLE else View.INVISIBLE
-            button_random_opponent.visibility = if (isLoading) View.INVISIBLE else View.VISIBLE
+            showLoading(isLoading)
         })
 
         viewModel.error.observe(viewLifecycleOwner, Observer { message ->
@@ -49,6 +48,11 @@ class MultiplayerModeFragment : Fragment(), View.OnClickListener {
                     )
                 )
         })
+    }
+
+    private fun showLoading(show: Boolean) {
+        progress.visibility = if (show) View.VISIBLE else View.INVISIBLE
+        button_random_opponent.visibility = if (show) View.INVISIBLE else View.VISIBLE
     }
 
     override fun onClick(view: View?) {
