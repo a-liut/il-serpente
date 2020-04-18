@@ -13,7 +13,7 @@ abstract class UserService {
     }
 }
 
-class FirebaseUserService(
+class GoogleUserService(
     private val application: Application
 ) : UserService() {
 
