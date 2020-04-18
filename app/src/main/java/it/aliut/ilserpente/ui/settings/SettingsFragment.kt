@@ -15,6 +15,7 @@ import com.google.android.gms.common.api.ApiException
 import com.google.android.gms.tasks.Task
 import com.google.android.material.snackbar.Snackbar
 import it.aliut.ilserpente.R
+import it.aliut.ilserpente.user.isGuest
 import kotlinx.android.synthetic.main.settings_fragment.*
 import kotlinx.android.synthetic.main.settings_fragment.view.*
 import org.koin.android.viewmodel.ext.android.viewModel
@@ -54,23 +55,14 @@ class SettingsFragment : Fragment(), View.OnClickListener {
                 .load(user.photoUrl ?: R.drawable.ic_launcher_foreground)
                 .into(image_user_picture)
 
-            if (loggedWithGoogle) {
-                button_google_signin.visibility = View.INVISIBLE
-                button_google_logout.visibility = View.VISIBLE
-            } else {
+            if (user.isGuest()) {
                 button_google_signin.visibility = View.VISIBLE
                 button_google_logout.visibility = View.INVISIBLE
+            } else {
+                button_google_signin.visibility = View.INVISIBLE
+                button_google_logout.visibility = View.VISIBLE
             }
         })
-    }
-
-    override fun onStart() {
-        super.onStart()
-
-        GoogleSignIn.getLastSignedInAccount(context!!)
-            ?.let {
-                updateUser(it)
-            }
     }
 
     override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
@@ -97,20 +89,20 @@ class SettingsFragment : Fragment(), View.OnClickListener {
         }
     }
 
-    private fun updateUser(account: GoogleSignInAccount) {
+    private fun updateUser() {
         loggedWithGoogle = true
-        viewModel.updateUser(account)
+        viewModel.updateUser()
     }
 
     private fun clearUser() {
         loggedWithGoogle = false
-        viewModel.updateUser(null)
+        viewModel.updateUser()
     }
 
     private fun onLoginCompleted(task: Task<GoogleSignInAccount>) {
         try {
             task.getResult(ApiException::class.java)
-                ?.also { updateUser(it) }
+                ?.also { updateUser() }
                 ?.also { showMessage(getString(R.string.google_login_success, it.displayName)) }
                 ?: showMessage(getString(R.string.google_login_error))
         } catch (ex: ApiException) {

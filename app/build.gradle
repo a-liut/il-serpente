@@ -42,7 +42,6 @@ dependencies {
 
     implementation 'com.google.firebase:firebase-auth:19.3.0'
     implementation 'com.google.android.gms:play-services-auth:18.0.0'
-    implementation 'com.google.firebase:firebase-database-ktx:19.2.1'
 
     implementation 'org.koin:koin-android-viewmodel:2.1.5'
 

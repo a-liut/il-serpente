@@ -8,11 +8,11 @@ import it.aliut.ilserpente.game.GameMode
 import it.aliut.ilserpente.game.player.ComputerPlayer
 import it.aliut.ilserpente.game.player.HumanPlayer
 import it.aliut.ilserpente.user.User
-import it.aliut.ilserpente.user.UserRepository
+import it.aliut.ilserpente.user.UserService
 import it.aliut.ilserpente.utils.SingleLiveEvent
 
 class ModeSelectionViewModel(
-    private val userRepository: UserRepository
+    private val userService: UserService
 ) : ViewModel() {
 
     private val _startGameEvent = SingleLiveEvent<GameData>()
@@ -36,6 +36,7 @@ class ModeSelectionViewModel(
                 HumanPlayer(getUser(), Color.RED),
                 HumanPlayer(
                     User(
+                        id = "noid",
                         name = "Player Two",
                         photoUrl = null
                     ), Color.BLUE
@@ -44,5 +45,5 @@ class ModeSelectionViewModel(
         )
     }
 
-    private fun getUser() = userRepository.getCurrentUser()
+    private fun getUser() = userService.getCurrentUser()
 }
