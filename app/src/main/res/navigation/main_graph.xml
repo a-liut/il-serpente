@@ -26,7 +26,6 @@
     <fragment
         android:id="@+id/modeSelectionFragment"
         android:name="it.aliut.ilserpente.ui.modeselection.ModeSelectionFragment"
-        android:label="ModeSelectionFragment"
         tools:layout="@layout/modeselection_fragment">
         <action
             android:id="@+id/action_modeSelectionFragment_to_gameFragment"
@@ -38,4 +37,8 @@
         android:id="@+id/settingsFragment"
         android:name="it.aliut.ilserpente.ui.settings.SettingsFragment"
         tools:layout="@layout/settings_fragment" />
+    <fragment
+        android:id="@+id/historyFragment"
+        android:name="it.aliut.ilserpente.ui.history.HistoryFragment"
+        tools:layout="@layout/history_fragment" />
 </navigation>

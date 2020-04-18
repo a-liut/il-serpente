@@ -1,5 +1,6 @@
 package it.aliut.ilserpente.di
 
+import it.aliut.ilserpente.ui.history.HistoryViewModel
 import it.aliut.ilserpente.ui.modeselection.ModeSelectionViewModel
 import it.aliut.ilserpente.ui.settings.SettingsViewModel
 import it.aliut.ilserpente.user.GoogleUserService
@@ -12,4 +13,5 @@ val appModule = module {
 
     viewModel { ModeSelectionViewModel(get()) }
     viewModel { SettingsViewModel(get()) }
+    viewModel { HistoryViewModel(get()) }
 }

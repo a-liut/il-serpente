@@ -7,6 +7,7 @@
     <string name="button_single_text">Single player</string>
     <string name="main_nav_play_text">Play</string>
     <string name="main_nav_settings_text">Settings</string>
+    <string name="main_nav_history_text">History</string>
     <string name="settings_user_name_title">Name</string>
     <string name="sign_in_with_google">Sign-in with Google</string>
     <string name="google_login_error">Cannot sign in with Google. Retry later.</string>
