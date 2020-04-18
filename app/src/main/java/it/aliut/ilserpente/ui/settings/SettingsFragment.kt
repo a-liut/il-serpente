@@ -27,8 +27,6 @@ class SettingsFragment : Fragment(), View.OnClickListener {
 
     private val viewModel: SettingsViewModel by viewModel()
 
-    private var loggedWithGoogle: Boolean = false
-
     private val gso = GoogleSignInOptions.Builder(GoogleSignInOptions.DEFAULT_SIGN_IN)
         .requestProfile()
         .build()
@@ -85,17 +83,11 @@ class SettingsFragment : Fragment(), View.OnClickListener {
 
         client.signOut().addOnCompleteListener {
             showMessage("User signed out!")
-            clearUser()
+            updateUser()
         }
     }
 
     private fun updateUser() {
-        loggedWithGoogle = true
-        viewModel.updateUser()
-    }
-
-    private fun clearUser() {
-        loggedWithGoogle = false
         viewModel.updateUser()
     }
 
