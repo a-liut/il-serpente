@@ -15,7 +15,7 @@ import com.google.android.gms.common.api.ApiException
 import com.google.android.gms.tasks.Task
 import com.google.android.material.snackbar.Snackbar
 import it.aliut.ilserpente.R
-import it.aliut.ilserpente.user.isGuest
+import it.aliut.ilserpente.user.Guest
 import kotlinx.android.synthetic.main.settings_fragment.*
 import kotlinx.android.synthetic.main.settings_fragment.view.*
 import org.koin.android.viewmodel.ext.android.viewModel
@@ -55,7 +55,7 @@ class SettingsFragment : Fragment(), View.OnClickListener {
                 .load(user.photoUrl ?: R.drawable.ic_launcher_foreground)
                 .into(image_user_picture)
 
-            if (user.isGuest()) {
+            if (user is Guest) {
                 button_google_signin.visibility = View.VISIBLE
                 button_google_logout.visibility = View.INVISIBLE
             } else {

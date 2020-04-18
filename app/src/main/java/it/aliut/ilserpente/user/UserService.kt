@@ -6,14 +6,9 @@ import com.google.android.gms.auth.api.signin.GoogleSignIn
 abstract class UserService {
     abstract fun getCurrentUser(): User
 
-    protected fun makeGuest() = User(
-        id = GUEST_ID,
-        name = GUEST_NAME,
-        photoUrl = null
-    )
+    protected fun makeGuest() = Guest(GUEST_NAME)
 
     companion object {
-        const val GUEST_ID = "guestid"
         const val GUEST_NAME = "Guest"
     }
 }
@@ -33,5 +28,3 @@ class FirebaseUserService(
             }
             ?: makeGuest()
 }
-
-fun User.isGuest(): Boolean = id == UserService.GUEST_ID
