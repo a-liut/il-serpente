@@ -1,4 +1,4 @@
-package it.aliut.ilserpente.game
+package it.aliut.ilserpente.model
 
 import it.aliut.ilserpente.game.player.Player
 import java.util.Date

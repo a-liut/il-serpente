@@ -7,8 +7,8 @@ import it.aliut.ilserpente.game.GameData
 import it.aliut.ilserpente.game.GameMode
 import it.aliut.ilserpente.game.player.ComputerPlayer
 import it.aliut.ilserpente.game.player.HumanPlayer
-import it.aliut.ilserpente.user.User
-import it.aliut.ilserpente.user.UserService
+import it.aliut.ilserpente.model.User
+import it.aliut.ilserpente.service.UserService
 import it.aliut.ilserpente.utils.SingleLiveEvent
 
 class ModeSelectionViewModel(

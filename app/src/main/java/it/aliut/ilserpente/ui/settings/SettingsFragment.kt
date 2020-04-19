@@ -15,7 +15,7 @@ import com.google.android.gms.common.api.ApiException
 import com.google.android.gms.tasks.Task
 import com.google.android.material.snackbar.Snackbar
 import it.aliut.ilserpente.R
-import it.aliut.ilserpente.user.Guest
+import it.aliut.ilserpente.model.Guest
 import kotlinx.android.synthetic.main.settings_fragment.*
 import kotlinx.android.synthetic.main.settings_fragment.view.*
 import org.koin.android.viewmodel.ext.android.viewModel

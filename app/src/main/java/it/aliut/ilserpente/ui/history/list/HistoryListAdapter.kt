@@ -5,7 +5,7 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
 import it.aliut.ilserpente.R
-import it.aliut.ilserpente.game.MatchResult
+import it.aliut.ilserpente.model.MatchResult
 import java.text.SimpleDateFormat
 import kotlinx.android.synthetic.main.history_item.view.*
 

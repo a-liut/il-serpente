@@ -3,7 +3,7 @@ package it.aliut.ilserpente.ui.history
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
-import it.aliut.ilserpente.game.MatchResult
+import it.aliut.ilserpente.model.MatchResult
 
 class HistoryViewModel : ViewModel() {
 

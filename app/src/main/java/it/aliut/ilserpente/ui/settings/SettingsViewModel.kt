@@ -3,8 +3,8 @@ package it.aliut.ilserpente.ui.settings
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
-import it.aliut.ilserpente.user.User
-import it.aliut.ilserpente.user.UserService
+import it.aliut.ilserpente.model.User
+import it.aliut.ilserpente.service.UserService
 
 class SettingsViewModel(
     private val userService: UserService

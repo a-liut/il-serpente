@@ -1,4 +1,4 @@
-package it.aliut.ilserpente.user
+package it.aliut.ilserpente.model
 
 import java.util.UUID
 

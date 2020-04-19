@@ -2,7 +2,7 @@ package it.aliut.ilserpente.game.player
 
 import it.aliut.ilserpente.game.GameMove
 import it.aliut.ilserpente.game.GameState
-import it.aliut.ilserpente.user.User
+import it.aliut.ilserpente.model.User
 import kotlinx.coroutines.channels.Channel
 
 class HumanPlayer(val user: User, color: Int) : Player(user.name, color) {

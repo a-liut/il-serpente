@@ -9,7 +9,7 @@ import androidx.lifecycle.Observer
 import androidx.recyclerview.widget.DividerItemDecoration
 import androidx.recyclerview.widget.LinearLayoutManager
 import it.aliut.ilserpente.R
-import it.aliut.ilserpente.game.MatchResult
+import it.aliut.ilserpente.model.MatchResult
 import it.aliut.ilserpente.ui.history.list.HistoryListAdapter
 import kotlinx.android.synthetic.main.history_fragment.view.*
 import org.koin.android.viewmodel.ext.android.viewModel
