@@ -13,4 +13,8 @@
     <string name="google_login_error">Cannot sign in with Google. Retry later.</string>
     <string name="google_login_success">Logged in as %1$s</string>
     <string name="user_logout">Logout</string>
+    <string name="history_players_text">Players: %1$s</string>
+    <string name="history_winner_text">Winner: %1$s</string>
+    <string name="history_moves_text">Moves: %1$d</string>
+    <string name="history_date_text">Date: %1$s</string>
 </resources>
