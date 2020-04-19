@@ -1,6 +1,5 @@
 package it.aliut.ilserpente.ui.history.list
 
-import android.content.res.Resources
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -16,7 +15,7 @@ class HistoryListAdapter(private val list: MutableList<MatchResult>) :
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): HistoryItemViewHolder {
         val view = LayoutInflater.from(parent.context).inflate(R.layout.history_item, parent, false)
 
-        return HistoryItemViewHolder(parent.resources, view)
+        return HistoryItemViewHolder(view)
     }
 
     override fun onBindViewHolder(holder: HistoryItemViewHolder, position: Int) {
@@ -27,22 +26,27 @@ class HistoryListAdapter(private val list: MutableList<MatchResult>) :
 
     override fun getItemCount(): Int = list.size
 
-    class HistoryItemViewHolder(private val resources: Resources, itemView: View) :
+    class HistoryItemViewHolder(itemView: View) :
         RecyclerView.ViewHolder(itemView) {
 
         fun bind(matchResult: MatchResult) {
-            itemView.text_players.text = resources.getString(
-                R.string.history_players_text,
-                matchResult.players.joinToString(", ") { it.name })
-            itemView.text_winner.text =
-                resources.getString(R.string.history_winner_text, matchResult.winner.name)
-            itemView.text_moves.text =
-                resources.getString(R.string.history_moves_text, matchResult.moves)
-            itemView.text_date.text =
-                resources.getString(
-                    R.string.history_date_text,
-                    SimpleDateFormat.getInstance().format(matchResult.date)
-                )
+            with(itemView) {
+                text_players.text = resources.getString(
+                    R.string.history_players_text,
+                    matchResult.players.joinToString(", ") { it.name })
+
+                text_winner.text =
+                    resources.getString(R.string.history_winner_text, matchResult.winner.name)
+
+                text_moves.text =
+                    resources.getString(R.string.history_moves_text, matchResult.moves)
+
+                text_date.text =
+                    resources.getString(
+                        R.string.history_date_text,
+                        SimpleDateFormat.getInstance().format(matchResult.date)
+                    )
+            }
         }
     }
 }
