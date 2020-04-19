@@ -5,6 +5,7 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.Fragment
+import androidx.lifecycle.Observer
 import androidx.recyclerview.widget.DividerItemDecoration
 import androidx.recyclerview.widget.LinearLayoutManager
 import it.aliut.ilserpente.R
@@ -40,5 +41,19 @@ class HistoryFragment : Fragment() {
         )
 
         return layout
+    }
+
+    override fun onActivityCreated(savedInstanceState: Bundle?) {
+        super.onActivityCreated(savedInstanceState)
+
+        viewModel.historyList.observe(viewLifecycleOwner, Observer { list ->
+            updateList(list)
+        })
+    }
+
+    private fun updateList(newList: List<MatchResult>) {
+        historyList.clear()
+        historyList.addAll(newList)
+        historyListAdapter.notifyDataSetChanged()
     }
 }

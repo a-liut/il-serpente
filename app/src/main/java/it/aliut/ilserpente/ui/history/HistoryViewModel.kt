@@ -3,23 +3,11 @@ package it.aliut.ilserpente.ui.history
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
-import it.aliut.ilserpente.user.User
-import it.aliut.ilserpente.user.UserService
+import it.aliut.ilserpente.game.MatchResult
 
-class HistoryViewModel(
-    private val userService: UserService
-) : ViewModel() {
+class HistoryViewModel : ViewModel() {
 
-    private val _user = MutableLiveData<User>()
-    val user: LiveData<User>
-        get() = _user
-
-    init {
-        updateUser()
-    }
-
-    fun updateUser() {
-        val user = userService.getCurrentUser()
-        _user.value = user
-    }
+    private val _historyList = MutableLiveData<List<MatchResult>>()
+    val historyList: LiveData<List<MatchResult>>
+        get() = _historyList
 }

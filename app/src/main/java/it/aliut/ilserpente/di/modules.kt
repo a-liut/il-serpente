@@ -13,5 +13,5 @@ val appModule = module {
 
     viewModel { ModeSelectionViewModel(get()) }
     viewModel { SettingsViewModel(get()) }
-    viewModel { HistoryViewModel(get()) }
+    viewModel { HistoryViewModel() }
 }
