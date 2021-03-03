@@ -7,5 +7,6 @@ data class MatchResult(
     val players: List<Player>,
     val winner: Player,
     val moves: Int,
-    val date: Date
+    val startTime: Date,
+    val endTime: Date
 )
